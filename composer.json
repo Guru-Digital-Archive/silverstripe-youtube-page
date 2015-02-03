@@ -20,6 +20,6 @@
         "zend/gdata": "dev-master"
     },
     "extra": {
-        "installer-name": "silverstripe-icon-page"
+        "installer-name": "silverstripe-youtube-page"
     }
 }
