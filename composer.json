@@ -1,0 +1,25 @@
+{
+    "name": "gdmedia/silverstripe-youtube-page",
+    "description": "Simple page for showing and searching youtube",
+    "type": "silverstripe-module",
+    "homepage": "https://github.com/guru-digital/silverstripe-youtube-page",
+    "keywords": ["silverstripe", "youtube"],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Corey Sewell - Guru Digital Media",
+            "email": "corey@gdmedia.tv"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/guru-digital/silverstripe-youtube-page/issues"
+    },
+    "require": {
+        "silverstripe/cms": ">=3.0.1,<3.2",
+        "composer/installers": "*",
+        "zend/gdata": "dev-master"
+    },
+    "extra": {
+        "installer-name": "silverstripe-icon-page"
+    }
+}
