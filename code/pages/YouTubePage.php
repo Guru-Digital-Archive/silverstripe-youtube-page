@@ -32,13 +32,9 @@ class YouTubePage_Controller extends Page_Controller {
         $this->yt = new Zend_Gdata_YouTube();
         $this->yt->setMajorProtocolVersion(2);
         parent::init();
-        // You can include any CSS or JS required by your project here.
-        // See: http://doc.silverstripe.org/framework/en/reference/requirements
     }
 
     public function search($term, $type = "all", $startIndex = "", $maxResults = "") {
-
-
         $ytQuery = $this->yt->newVideoQuery();
         $ytQuery->setQuery($term);
         $ytQuery->setStartIndex($startIndex);
@@ -120,7 +116,7 @@ class YouTubePage_Controller extends Page_Controller {
     }
 
     public function getVideos() {
-        $videos = $this->search($this->GetSearchTerm(),$this->GetSearchType());
+        $videos = $this->search($this->GetSearchTerm(), $this->GetSearchType());
         return $videos;
     }
 
