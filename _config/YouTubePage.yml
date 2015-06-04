@@ -1,0 +1,10 @@
+name: YouTubePage
+---
+YouTubePage:
+    AppName: SS Youtube Page
+    Auth:
+            DeveloperKey: ""
+            ClientID: ""
+            ClientSecret: ""
+    Defaults:
+            safeSearch: none 
