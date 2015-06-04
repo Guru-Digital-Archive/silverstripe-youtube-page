@@ -101,7 +101,6 @@ class YouTubePage_Controller extends Page_Controller {
         if (is_array($this->defaults)) {
             $options = array_merge($this->defaults, $options);
         }
-        echo '<pre class="debug"> "$options"' . PHP_EOL . print_r($options, true) . PHP_EOL . '</pre>';
         $searchResponse = $this->yt->search->listSearch("snippet", $options);
         foreach ($searchResponse['items'] as $searchResult) {
             $result->add(YTVideoEntry::fromYouTubeSearchResultSnippet($searchResult));
