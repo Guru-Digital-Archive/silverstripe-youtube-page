@@ -1,6 +1,7 @@
 <?php
 
-class YTVideoEntry extends ViewableData {
+class YTVideoEntry extends ViewableData
+{
 
     public $ID;
     public $Thumb;
@@ -10,11 +11,12 @@ class YTVideoEntry extends ViewableData {
     public $AuthorUri;
     public $URL;
 
-    function __construct() {
-        
+    public function __construct()
+    {
     }
 
-    public function fortemplate() {
+    public function fortemplate()
+    {
         return $this->renderWith(__CLASS__);
     }
 
@@ -23,7 +25,8 @@ class YTVideoEntry extends ViewableData {
      * @param Google_Service_YouTube_SearchResultSnippet $snippit
      * @return \YTVideoEntry
      */
-    static function fromYouTubeSearchResultSnippet(Google_Service_YouTube_SearchResultSnippet $snippit) {
+    public static function fromYouTubeSearchResultSnippet(Google_Service_YouTube_SearchResultSnippet $snippit)
+    {
         $result = new YTVideoEntry();
         if ($snippit instanceof Google_Service_YouTube_Video) {
             $result->ID = $snippit['id'];
@@ -36,5 +39,4 @@ class YTVideoEntry extends ViewableData {
         $result->URL         = Controller::curr()->Link('ViewVideo/' . $result->ID);
         return $result;
     }
-
 }

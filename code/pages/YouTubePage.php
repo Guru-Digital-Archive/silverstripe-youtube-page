@@ -1,10 +1,11 @@
 <?php
 
-class YouTubePage extends Page {
-    
+class YouTubePage extends Page
+{
 }
 
-class YouTubePage_Controller extends Page_Controller {
+class YouTubePage_Controller extends Page_Controller
+{
 
     /**
      *
@@ -25,14 +26,16 @@ class YouTubePage_Controller extends Page_Controller {
         'safeSearch' => array("moderate", "none", "strict")
     );
 
-    public function init() {
+    public function init()
+    {
         $this->yt     = new Google_Service_YouTube($this->getGoogleClient());
         $this->setDefaults();
         $this->videos = $this->search($this->GetSearchTerm(), $this->GetSearchType());
         parent::init();
     }
 
-    protected function getGoogleClient() {
+    protected function getGoogleClient()
+    {
         $client       = new Google_Client();
         $this->conf   = $this->config()->forClass("YouTubePage");
         $appName      = $this->conf->get("AppName");
@@ -40,7 +43,7 @@ class YouTubePage_Controller extends Page_Controller {
         $developerKey = isset($auth['DeveloperKey']) ? $auth['DeveloperKey'] : false;
         if (empty($appName)) {
             throw new Exception("No AppName in YouTubePage Config");
-        } else if (empty($auth)) {
+        } elseif (empty($auth)) {
             throw new Exception("No Auth in YouTubePage Config");
         }
         $client->setApplicationName($appName);
@@ -52,7 +55,8 @@ class YouTubePage_Controller extends Page_Controller {
         return $client;
     }
 
-    protected function setDefaults() {
+    protected function setDefaults()
+    {
         $defaults = $this->conf->get("Defaults");
         if ($defaults) {
             foreach ($defaults as $key => $value) {
@@ -63,7 +67,8 @@ class YouTubePage_Controller extends Page_Controller {
         }
     }
 
-    public function getPagerLink($token) {
+    public function getPagerLink($token)
+    {
         $result = false;
         if ($token) {
             $requestVars              = $this->request->getVars();
@@ -74,15 +79,18 @@ class YouTubePage_Controller extends Page_Controller {
         return $result;
     }
 
-    public function getNextPageLink() {
+    public function getNextPageLink()
+    {
         return $this->getPagerLink($this->NextPageToken);
     }
 
-    public function getPrevPageLink() {
+    public function getPrevPageLink()
+    {
         return $this->getPagerLink($this->PrevPageToken);
     }
 
-    public function search($term, $type = "all", $maxResults = 9) {
+    public function search($term, $type = "all", $maxResults = 9)
+    {
         $result = new ArrayList();
 
         $options = array(
@@ -113,11 +121,13 @@ class YouTubePage_Controller extends Page_Controller {
         return $result;
     }
 
-    public function getVideos() {
+    public function getVideos()
+    {
         return $this->videos;
     }
 
-    public function ViewVideo(SS_HTTPRequest $request) {
+    public function ViewVideo(SS_HTTPRequest $request)
+    {
         $relatedVideoFeed = new ArrayList();
 
         $videoId         = $request->param("ID");
@@ -134,7 +144,8 @@ class YouTubePage_Controller extends Page_Controller {
                 )->renderWith(array('YouTubePage_view', 'Page'));
     }
 
-    public function SearchForm() {
+    public function SearchForm()
+    {
         $searchText  = $this->GetSearchTerm() ? : "";
         $queryType   = $this->GetSearchType() ? : "";
         $category    = $this->GetCategory() ? : "";
@@ -147,8 +158,7 @@ class YouTubePage_Controller extends Page_Controller {
             'viewcount' => 'Most Viewed Videos',
             'date'      => 'Most recent',
             'rating'    => 'Top rated',
-                ), $queryType), new DropdownField('category', "Category:", $this->GetCategories()
-                , $category), $searchField
+                ), $queryType), new DropdownField('category', "Category:", $this->GetCategories(), $category), $searchField
         );
         $action               = new FormAction('YouTubeSearchResults', _t('SearchForm.GO', 'Go'));
         $action->addExtraClass('btn btn-default btn-search');
@@ -164,7 +174,8 @@ class YouTubePage_Controller extends Page_Controller {
         return $form;
     }
 
-    public function GetSearchTerm() {
+    public function GetSearchTerm()
+    {
         $result = false;
         if ($this->request && $this->request->getVar('Search')) {
             $result = $this->request->getVar('Search');
@@ -172,7 +183,8 @@ class YouTubePage_Controller extends Page_Controller {
         return $result;
     }
 
-    public function GetSearchType() {
+    public function GetSearchType()
+    {
         $result = "relevance";
         if ($this->request && $this->request->getVar('queryType')) {
             $result = $this->request->getVar('queryType');
@@ -180,7 +192,8 @@ class YouTubePage_Controller extends Page_Controller {
         return $result;
     }
 
-    public function GetCategory() {
+    public function GetCategory()
+    {
         $result = "";
         if ($this->request && $this->request->getVar('category')) {
             $result = $this->request->getVar('category');
@@ -188,7 +201,8 @@ class YouTubePage_Controller extends Page_Controller {
         return $result;
     }
 
-    public function GetPageToken() {
+    public function GetPageToken()
+    {
         $result = false;
         if ($this->request && $this->request->getVar('pageToken')) {
             $result = $this->request->getVar('pageToken');
@@ -196,7 +210,8 @@ class YouTubePage_Controller extends Page_Controller {
         return $result;
     }
 
-    public function GetCategories() {
+    public function GetCategories()
+    {
         $localeEx   = explode("_", Member::currentUser()->Locale);
         $regionCode = isset($localeEx[1]) ? $localeEx[1] : "NZ";
         $categories = $this->yt->videoCategories->listVideoCategories('snippet', ['regionCode' => $regionCode]);
@@ -206,5 +221,4 @@ class YouTubePage_Controller extends Page_Controller {
         }
         return $result;
     }
-
 }
